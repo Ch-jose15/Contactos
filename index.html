@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contactos</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div id="principal">
+            <div id="titulo"><h1>Agenda de Contactos</h1></div>
+
+            <div id="op"><h2>Elije la operación a realizar</h2></div>
+
+            <div id="contenedor">
+                <button id="btn1">BUSCAR POR NUMERO</button>
+                <button id="btn2">AGREGAR</button>
+                <button id="btn3">MODIFICAR </button>
+                <button id="btn4">ELIMINAR</button>
+                <button id="btn5">MOSTRAR CONTACTOS</button>
+            </div>
+        </div>
+        <script>
+            let contactos = [
+                { nombre: "Jose", numero: 123456789 },
+            ];
+        
+            function iniciar() {
+                for (let i = 1; i <= 5; i++) {
+                    const boton = document.getElementById("btn" + i);
+                    boton.addEventListener("click", () => manejarBoton(boton));
+                }
+            }
+        
+            function manejarBoton(boton) {
+                const id = boton.id;
+        
+                switch (id) {
+                    case "btn1":
+                        buscarContacto();
+                        break;
+                    case "btn2":
+                        agregarContacto();
+                        break;
+                    case "btn3":
+                        modificarContacto();
+                        break;
+                    case "btn4":
+                        eliminarContacto();
+                        break;
+                    case "btn5":
+                        listarContactos();
+                        break;
+                    default:
+                        alert("Opción no válida. Por favor, seleccione un número entre 1 y 5.");
+                        break;
+                }
+            }
+        
+            function buscarContacto() {
+                let telefono;
+                do {
+                    telefono = prompt("Por favor, introduzca el número de teléfono:");
+                } while (!validarTelefono(telefono));
+        
+                const contacto = contactos.find(c => c.numero === parseInt(telefono));
+                if (contacto) {
+                    mostrarContacto(contacto);
+                } else {
+                    alert("No se ha encontrado ningún contacto con el número proporcionado.");
+                }
+            }
+        
+            function validarTelefono(telefono) {
+                if (!telefono || telefono.length !== 9 || isNaN(telefono)) {
+                    alert("ERROR: El número de teléfono debe tener 9 dígitos y contener únicamente números.");
+                    return false;
+                }
+                return true;
+            }
+        
+            function mostrarContacto(contacto) {
+                alert(`***************************\nNombre: ${contacto.nombre}\nTeléfono: ${contacto.numero}\n***************************`);
+            }
+        
+            function agregarContacto() {
+                const nombre = prompt("Por favor, introduzca el nombre del usuario:");
+                const telefono = prompt("Por favor, introduzca el número de teléfono:");
+        
+                if (nombre && validarTelefono(telefono)) {
+                    const nuevoContacto = { nombre: nombre, numero: parseInt(telefono) };
+                    contactos.push(nuevoContacto);
+                    alert("El contacto ha sido añadido correctamente.");
+                    mostrarContacto(nuevoContacto);
+                }
+            }
+        
+            function modificarContacto() {
+                const nombre = prompt("Por favor, introduzca el nombre del usuario:");
+                const telefono = prompt("Por favor, introduzca el número de teléfono:");
+        
+                const contacto = contactos.find(c => c.nombre === nombre && c.numero === parseInt(telefono));
+                if (contacto) {
+                    const nuevoNombre = prompt("Contacto encontrado. Por favor, introduzca el nuevo nombre del usuario:");
+                    const nuevoTelefono = prompt("Por favor, introduzca el nuevo número de teléfono:");
+        
+                    contacto.nombre = nuevoNombre;
+                    contacto.numero = parseInt(nuevoTelefono);
+                    alert("El contacto ha sido actualizado correctamente.");
+                } else {
+                    alert("No se ha encontrado ningún contacto con los datos proporcionados.");
+                }
+            }
+        
+            function listarContactos() {
+                const lista = contactos.map(contacto => `
+                    ***********
+                    Nombre: ${contacto.nombre}
+                    Teléfono: ${contacto.numero}
+                    ***********
+                `).join("\n");
+                alert(lista);
+            }
+        
+            function eliminarContacto() {
+                const telefono = Number(prompt("Por favor, introduzca el número de teléfono del contacto que desea eliminar:"));
+        
+                const longitudOriginal = contactos.length;
+                contactos = contactos.filter(contacto => contacto.numero !== telefono);
+        
+                if (contactos.length === longitudOriginal) {
+                    alert("No se ha encontrado ningún contacto con el número proporcionado.");
+                } else {
+                    alert("El contacto ha sido eliminado correctamente.");
+                }
+            }
+        
+            window.addEventListener("load", iniciar);
+        </script>
+    </body>
+</html>

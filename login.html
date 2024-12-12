@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="loginstyle.css">
+    </head>
+    <body>
+        <div class="container">
+            <form action="index.html">
+                <h2>Iniciar Sesión</h2>
+                <input type="text" id="usuario" placeholder="Usuario" required>
+                <input type="password" id="contraseña" placeholder="Contraseña" required>
+                <button type="submit" id="boton-acceder" disabled>Acceder</button>
+            </form>
+        </div>
+
+        <script>
+            const usuarioInput = document.getElementById('usuario');
+            const contraseñaInput = document.getElementById('contraseña');
+            const botonAcceder = document.getElementById('boton-acceder');
+
+            usuarioInput.addEventListener('input', validarCampos);
+            contraseñaInput.addEventListener('input', validarCampos);
+
+            function validarCampos() {
+                if (usuarioInput.value.trim() !== '' && contraseñaInput.value.trim() !== '') {
+                    botonAcceder.disabled = false;
+                } else {
+                    botonAcceder.disabled = true;
+                }
+            }
+        </script>
+    </body>
+</html>
